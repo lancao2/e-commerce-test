@@ -1,7 +1,6 @@
 const User = require('../models/User');
-const bcrypt = require('bcrypt');
 const _ = require('lodash');
-require('dotenv').config();
+
 
 module.exports = {
     async store(req, res){
@@ -14,8 +13,8 @@ module.exports = {
                 throw new Error("this email is already in use")
 
             }else{   
-                const hash = await bcrypt.hash(password, parseInt(process.env.SALT_ROUNDS));
-                const user = await User.create({name, email, password: hash, is_adm});
+
+                const user = await User.create({name, email, password, is_adm});
                 const userResponse = _.pick(user, ['id', 'name', 'email', 'is_adm', 'updatedAt', 'createdAt']);
                 
                 return res.json(userResponse);
