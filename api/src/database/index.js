@@ -1,9 +1,10 @@
 const  Sequelize  = require('sequelize');
 const dbConfig = require('../config/database');
 
-const User = require('../models/User')
+const User = require('../app/models/User')
+const Key = require('../app/models/Key')
 
-const models = [User]
+const models = [User, Key]
 
 const sequelize = new Sequelize(dbConfig);
 

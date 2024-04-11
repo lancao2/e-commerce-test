@@ -28,7 +28,7 @@ module.exports = {
     async update(req, res){
         try {
             const { password, is_adm} = req.body;
-            const { id } = req.params
+            const  id  = req.userId
 
             // verify if have a id in params.
             if (!id){
@@ -40,7 +40,9 @@ module.exports = {
                 if (user){
                     await User.update({password, is_adm},{where:{id},returning: true})
                     const user = await User.findOne({where:{id} });
-                    return res.json(user);
+
+                    const userResponse = _.pick(user, ['id', 'name', 'email', 'is_adm', 'updatedAt', 'createdAt']);
+                    return res.json(userResponse);
                 }else{
                     throw new Error("this is not a valid Id")
                 }
