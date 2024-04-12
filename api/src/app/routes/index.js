@@ -6,7 +6,7 @@ const KeyRoutes = require('./keyRoutes')
 const AuthRoutes = require('./authRoutes')
 
 routes.use('/users', UserRoutes)
-routes.use('/users/key', KeyRoutes)
+routes.use('/RecoverPassword', KeyRoutes)
 routes.use('/auth', AuthRoutes)
   
 module.exports = routes

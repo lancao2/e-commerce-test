@@ -14,7 +14,7 @@ module.exports = {
 
             }else{   
 
-                const user = await User.create({name, email, password, is_adm});
+                const user = await User.create({name, email, password, is_adm });
                 const userResponse = _.pick(user, ['id', 'name', 'email', 'is_adm', 'updatedAt', 'createdAt']);
                 
                 return res.json(userResponse);
@@ -39,10 +39,9 @@ module.exports = {
 
                 if (user){
                     await User.update({password, is_adm},{where:{id},returning: true})
-                    const user = await User.findOne({where:{id} });
+                    const user = await User.findOne({where:{id}, attributes: ['id', 'name', 'email', 'is_adm', 'updatedAt', 'createdAt'] });
 
-                    const userResponse = _.pick(user, ['id', 'name', 'email', 'is_adm', 'updatedAt', 'createdAt']);
-                    return res.json(userResponse);
+                    return res.json(user);
                 }else{
                     throw new Error("this is not a valid Id")
                 }
