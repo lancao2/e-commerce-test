@@ -2,6 +2,8 @@ const Key = require('../models/Key')
 const User = require('../models/User');
 const generateKey = require('../service/generateKey');
 const transport = require('../service/mailer');
+const jwt = require('jsonwebtoken')
+require('dotenv').config();
 
 module.exports = {
     async store(req, res){
@@ -38,6 +40,34 @@ module.exports = {
             })
 
            
+            
+        } catch (error) {
+            return res.status(400).json({message: error.message});
+        }
+    },
+    async update(req, res){
+        try {
+            const {email, key} = req.body;
+
+            const user = await User.findOne({where: {email}});
+            const dbKey = await Key.findOne({where: {key}});
+
+            if (!user){
+                throw new Error('User was not found')
+            }
+
+            if (!dbKey){
+                throw new Error('invalid key')
+            }
+
+            
+            if (dbKey.user_id !== user.id) throw new Error('invalid key');
+
+            const token = jwt.sign({ id: user.id}, process.env.TOKEN_HASH, {
+                expiresIn: 86400
+            })
+
+            return res.json({token})
             
         } catch (error) {
             return res.status(400).json({message: error.message});

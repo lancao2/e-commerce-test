@@ -6,6 +6,7 @@ module.exports = {
     async store(req, res){
         try {
             const {name, email, password, is_adm} = req.body;
+            
 
             // verify if user already exists if not create it.
             const repitedUser = await User.findOne({ where:{email} });
@@ -35,20 +36,17 @@ module.exports = {
                 throw new Error("id was not found");
             }else{
                 //verify if the if id is valid and edit user.
-                const user = await User.findOne({where:{id} });
+                const user = await User.findOne({where:{id},  attributes: ['id', 'name', 'email', 'is_adm', 'updatedAt', 'createdAt'] });
 
-                if (user){
-                    await User.update({password, is_adm},{where:{id},returning: true})
-                    const user = await User.findOne({where:{id}, attributes: ['id', 'name', 'email', 'is_adm', 'updatedAt', 'createdAt'] });
-
-                    return res.json(user);
-                }else{
+                if (!user){
                     throw new Error("this is not a valid Id")
+                   
                 }
+                await user.update({password, is_adm},{where:{id},returning: true})
+                const userResponse = _.pick(user, ['id', 'name', 'email', 'is_adm', 'updatedAt', 'createdAt']);
+
+                return res.json(userResponse);
             }
-
-          
-
         } catch (error) {
             return res.status(400).json({message: error.message});
         }
