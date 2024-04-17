@@ -4,12 +4,18 @@ import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from 'react-hook-form';
 import api from '../../service/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 export default function Login(){
     const navigation = useNavigation();
-
-    const { control, handleSubmit, formState: { errors } } = useForm();
     const [loading, setLoading] = useState(false);
+    
+    const userSchema = yup.object({
+        email: yup.string().email('Email inválido').required('Email obrigatório'),
+        password: yup.string().required('Senha obrigatória'),
+    });
+    const { control, handleSubmit, formState: { errors } } = useForm({resolver: yupResolver(userSchema)});
   
     const handleLogin = async (data) => {
       setLoading(true);
@@ -46,10 +52,10 @@ export default function Login(){
                         onChangeText={value => onChange(value)}
                         value={value}
                         placeholder="Email"
+                        
                     />
                     )}
                     name="email"
-                    rules={{ required: 'Email é obrigatório' }}
                     defaultValue=""
                 />
                 {errors.email && <Text style={{ color: 'red' }}>{errors.email.message}</Text>}
@@ -66,7 +72,6 @@ export default function Login(){
                     />
                     )}
                     name="password"
-                    rules={{ required: 'Senha é obrigatória' }}
                     defaultValue=""
                 />
                 {errors.password && <Text style={{ color: 'red' }}>{errors.password.message}</Text>}
