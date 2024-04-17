@@ -67,6 +67,8 @@ module.exports = {
                 expiresIn: 86400
             })
 
+            await dbKey.destroy();
+
             return res.json({token})
             
         } catch (error) {
