@@ -23,6 +23,7 @@ export default function StackRoutes(){
             <Stack.Screen 
                 name='Recover'
                 component={Recover}
+                options={{ headerShown: false }}
             />
             <Stack.Screen 
                 name='Verificação de código'
@@ -31,6 +32,7 @@ export default function StackRoutes(){
             <Stack.Screen 
                 name='Editar senha'
                 component={EditPassword}
+                options={{ headerShown: false }}
             />
         </Stack.Navigator>
     )

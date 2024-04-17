@@ -11,7 +11,7 @@ const api = create({
 api.addAsyncRequestTransform((response) => async() =>{
     const token = await AsyncStorage.getItem('@TOKEN');
     if(token){
-        response.headers["Authorization"] = token;
+        response.headers["Authorization"] = "Bearer " + token;
     }
 })
 

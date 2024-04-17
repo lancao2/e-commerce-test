@@ -56,7 +56,6 @@ export default function Register(){
                 />
                 )}
                 name="name"
-                rules={{ required: 'Nome é obrigatório' }}
                 defaultValue=""
             />
             {errors.name && <Text style={{ color: 'red' }}>{errors.name.message}</Text>}
@@ -73,7 +72,6 @@ export default function Register(){
                 />
                 )}
                 name="email"
-                rules={{ required: 'Email é obrigatório', pattern: { value: /^\S+@\S+$/i, message: 'Email inválido' } }}
                 defaultValue=""
             />
             {errors.email && <Text style={{ color: 'red' }}>{errors.email.message}</Text>}
@@ -91,7 +89,6 @@ export default function Register(){
                 />
                 )}
                 name="password"
-                rules={{ required: 'Senha é obrigatória', minLength: { value: 6, message: 'Senha deve ter pelo menos 6 caracteres' } }}
                 defaultValue=""
             />
             {errors.password && <Text style={{ color: 'red' }}>{errors.password.message}</Text>}
@@ -109,7 +106,6 @@ export default function Register(){
                 />
                 )}
                 name="confirmPassword"
-                rules={{ required: 'Confirme a senha', validate: value => value === control.fieldsRef.current.password || 'As senhas não coincidem' }}
                 defaultValue=""
             />
             {errors.confirmPassword && <Text style={{ color: 'red' }}>{errors.confirmPassword.message}</Text>}
