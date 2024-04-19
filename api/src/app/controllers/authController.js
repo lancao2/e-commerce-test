@@ -8,11 +8,15 @@ require('dotenv').config();
 
 
 module.exports = {
-    async store(req, res){
+    async store(req, res, next){
+
        try {
         const { email, password } = req.body;
 
-        const user = await User.findOne({where: {email}});
+        const user = await User.findOne({where: {
+            email,
+            ...(req.isAdminFilter ? {is_adm: true} : {})
+        }});
 
         if (!user) {
             throw new Error('User was not found');

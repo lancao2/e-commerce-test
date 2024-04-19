@@ -7,8 +7,12 @@ const app = express();
 const port = 3001;
 
 app.use(express.json());
+app.use(cors({
+    origin: '*',
+    optionsSuccessStatus: 200,
+}));
 app.use(routes);
-app.use(cors());
+
 
 app.listen(port, ()=> {
     console.log(`listening on http://localhost:${port}`);
