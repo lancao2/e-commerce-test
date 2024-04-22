@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm} from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import api from "../../../../service/api";
-import { redirect } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const userSchema = yup.object().shape({
     email: yup.string().email('Email inválido').required('Email obrigatório'),
@@ -12,6 +12,13 @@ const userSchema = yup.object().shape({
 
 function LoginPage(){
     const [loading, setLoading] = useState(false);
+    const navegate = useNavigate();
+    const token = localStorage.getItem('@TOKEN');
+
+    useEffect(()=> {
+        if (token) navegate('/dashboard')
+
+    }, [token])
 
     const {
         register,
@@ -27,24 +34,21 @@ function LoginPage(){
                 password: data.password,
 
             }).then((response) => {
-                console.log(response)
+
+                localStorage.setItem('@TOKEN', response.data.token)
                 if(response.message){
                     throw new Error(response.message);
                 } 
                 if(response.error){
                     throw new Error(response.message);
                 } 
+                setLoading(false);
+                navegate('/dashboard')
             });
-            // const {token, user} = response.data;
-            // localStorage.setItem('@TOKEN', token)
-            // console.log(token)
-            // console.log(user)
-            setLoading(false);
-            redirect('/dashboard')
-            console.log(errors)
+            
         } catch (error) {
-            console.log(error)
             setLoading(false);
+            console.error(error)
 
         }
 
