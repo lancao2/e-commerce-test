@@ -7,6 +7,7 @@ const KeyRoutes = require('./keyRoutes')
 const AuthRoutes = require('./authRoutes')
 const CategoryRoutes = require('./categoryRoutes')
 const ProductRoutes = require('./productRoutes')
+const ImageRoutes = require('./imageRoutes')
 
 //middlewares
 const authMiddleware = require("../middleware/auth")
@@ -16,5 +17,6 @@ routes.use('/RecoverPassword', KeyRoutes)
 routes.use('/auth', AuthRoutes)
 routes.use('/category', CategoryRoutes) // tem middleware
 routes.use('/product', ProductRoutes) // tem middleware
+routes.use('/image', ImageRoutes) // tem middleware
   
 module.exports = routes
